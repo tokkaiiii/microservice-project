@@ -52,7 +52,6 @@ class WebSecurity(
     fun hasIpAddress(authenticationSupplier: Supplier<Authentication>, context: RequestAuthorizationContext): AuthorizationDecision {
         val authentication = authenticationSupplier.get()
 
-        // 요청의 IP 주소를 매칭하여 승인 여부 결정
         val matches = ALLOWED_IP_ADDRESS_MATCHER.matches(context.request)
         return AuthorizationDecision(matches)
     }

@@ -8,4 +8,6 @@ interface UserService : UserDetailsService {
     fun createUser(userDto: UserDto): UserDto
 
     fun getUserByEmail(email: String): UserDto
+
+    fun getUserByUserId(userId: String): UserDto
 }

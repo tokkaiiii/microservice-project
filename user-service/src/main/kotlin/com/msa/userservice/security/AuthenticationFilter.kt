@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.msa.userservice.service.UserService
 import com.msa.userservice.vo.LoginRequest
 import io.jsonwebtoken.Jwts
+import io.jsonwebtoken.SignatureAlgorithm.HS512
 import io.jsonwebtoken.security.Keys
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest
@@ -48,7 +49,8 @@ class AuthenticationFilter(
         val secretKey = Keys.hmacShaKeyFor(secretKeyBytes)
 
 
-        val expirationTimeMillis = environment.getProperty("token.expiration_time")?.toLongOrNull() ?: 3600000L
+
+        val expirationTimeMillis = environment.getProperty("jwt.token.expiration_time")?.toLongOrNull() ?: 3600000L
         val expirationDate = Date.from(now.plusMillis(expirationTimeMillis))
 
         val token = Jwts.builder()
@@ -58,7 +60,7 @@ class AuthenticationFilter(
             .signWith(secretKey)
             .compact()
 
-        response?.addHeader("token", token.toString())
+        response?.addHeader("token", token)
         response?.addHeader("userId", userDto.userId)
     }
 }

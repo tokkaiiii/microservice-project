@@ -38,3 +38,8 @@ spring:
           filters:
             - RemoveRequestHeader=Cookie
             - RewritePath=/user-service/(?<segment>.*), /$\{segment}
+            - AuthorizationHeaderFilter
+
+jwt:
+  token:
+    secret: f92c1fc8cebce915f5632c1f2a403f99c9307372039ef9c96e0c34c7adcbe96c7a339a35a1f140b5e6ce0fe186d4409ae28d316e6d3bca4466dae7eb4d06d305
