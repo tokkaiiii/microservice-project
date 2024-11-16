@@ -1,9 +1,6 @@
 spring:
   application:
     name: user-service
-  graphql:
-    schema:
-      file-extensions: graphql
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://${DB_IP}:3306/graphql?serverTimezone=UTC&characterEncoding=UTF-8&useUnicode=true
@@ -12,11 +9,6 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
-    jackson:
-      date-format: yyyy-MM-dd HH:mm:ss
-      time-zone: Asia/Seoul
-      serialization:
-        fail-on-empty-beans: false
 server:
   port: 0
 eureka:
@@ -27,3 +19,6 @@ eureka:
     register-with-eureka: true
     service-url:
       defaultZone: http://127.0.0.1:8761/eureka
+jwt:
+  token:
+    secrete: ${JWT_TOKEN_SECRETE}
