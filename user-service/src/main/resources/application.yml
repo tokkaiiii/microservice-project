@@ -21,4 +21,5 @@ eureka:
       defaultZone: http://127.0.0.1:8761/eureka
 jwt:
   token:
+    expiration_time: ${JWT_TOKEN_EXPIRATION_TIME}
     secrete: ${JWT_TOKEN_SECRETE}
