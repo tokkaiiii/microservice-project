@@ -72,7 +72,7 @@ class LoggingFilter : AbstractGatewayFilterFactory<Config>(Config::class.java) {
     }
 
     private fun logResponseBody(response: ServerHttpResponse) {
-        log.debug("Response body: {}", response.toString())
+        log.debug("Response body: {}", response)
     }
 
     data class Config(

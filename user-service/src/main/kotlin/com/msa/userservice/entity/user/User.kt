@@ -1,16 +1,26 @@
 package com.msa.userservice.entity.user
 
 import com.msa.userservice.audit.BaseEntity
+import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType.IDENTITY
 import jakarta.persistence.Id
 
 @Entity
-data class User(
-    var email: String,
-    var username: String,
-    var password: String,
+class User(
+    @Column(nullable = false, unique = true, length = 50)
+    var email: String = "",
+
+    @Column(nullable = false, unique = true, length = 50)
+    var userId: String = "",
+
+    @Column(nullable = false, length = 50)
+    var username: String = "",
+
+    @Column(nullable = false, unique = true,length = 50)
+    var password: String = "",
+
 ): BaseEntity(){
     @Id @GeneratedValue(strategy = IDENTITY)
     var id: Long? = null
