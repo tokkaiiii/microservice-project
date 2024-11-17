@@ -34,8 +34,9 @@ class WebSecurity(
         val authenticationManager = authenticationManagerBuilder.build()
         http.csrf{it.disable()}
             .authorizeHttpRequests{
-                it.requestMatchers(AntPathRequestMatcher("/users","POST")).permitAll()
-                  .requestMatchers(AntPathRequestMatcher("/login","POST")).permitAll()
+                it.requestMatchers(AntPathRequestMatcher("/**")).permitAll()
+//                it.requestMatchers(AntPathRequestMatcher("/users","POST")).permitAll()
+//                  .requestMatchers(AntPathRequestMatcher("/login","POST")).permitAll()
                     .requestMatchers(AntPathRequestMatcher("/actuator/**")).permitAll()
                     .requestMatchers("/**").access{
                         authentication, context -> hasIpAddress(authentication,context)

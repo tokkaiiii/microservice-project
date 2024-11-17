@@ -34,15 +34,13 @@ class AuthorizationHeaderFilter(
            }
 
            val authorizationHeader = request.headers[AUTHORIZATION]!![0]
-           log.info("Authorization header: $authorizationHeader")
            val token = authorizationHeader.removePrefix("Bearer").trim()
            if (!isTokenValid(token)){
                return@GatewayFilter onError(exchange, "Token is not valid", UNAUTHORIZED)
            }
+           log.info("Authorization header: $authorizationHeader")
 
-           chain.filter(exchange).then(Mono.fromRunnable {
-
-           })
+           chain.filter(exchange)
        }
     }
 
@@ -62,11 +60,16 @@ class AuthorizationHeaderFilter(
         val secretKeyBytes = Base64.getEncoder().encode(env.getProperty("jwt.token.secret")!!.toByteArray())
         val signingKey = SecretKeySpec(secretKeyBytes, HS512.jcaName)
 
+        try {
+
         val jwtParser = Jwts.parserBuilder()
             .setSigningKey(signingKey)
-            .build()
+            .build()?: return false
         val subject = jwtParser.parseClaimsJws(token).body.subject
         if (subject.isBlank()) {
+            isValid = false
+        }
+        }catch (ex: Exception){
             isValid = false
         }
         return isValid
