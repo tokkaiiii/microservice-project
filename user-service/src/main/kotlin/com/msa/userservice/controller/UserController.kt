@@ -39,7 +39,7 @@ class UserController(
             email = userDto.email,
             username = userDto.username,
         )
-        return ResponseEntity.status(OK).body(userOneResponse)
+        return ResponseEntity.ok().body(userOneResponse)
     }
 
 }
