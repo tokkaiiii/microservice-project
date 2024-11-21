@@ -20,8 +20,7 @@ class UserController(
         val userDto = UserDto(
             email = joinRequest.email,
             username = joinRequest.username,
-            password = joinRequest.password,
-            encryptedPassword = ""
+            password = joinRequest.password
         ).also { userService.createUser(it) }
         val joinResponse = JoinResponse(
             email = userDto.email,
