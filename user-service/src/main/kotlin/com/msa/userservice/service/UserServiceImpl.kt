@@ -2,6 +2,7 @@ package com.msa.userservice.service
 
 import com.msa.userservice.dto.UserDto
 import com.msa.userservice.entity.user.User
+import com.msa.userservice.exception.DuplicateEntityException
 import com.msa.userservice.exception.UserNotFoundException
 import com.msa.userservice.repository.UserRepository
 import org.springframework.security.core.userdetails.UserDetails
@@ -27,13 +28,17 @@ class UserServiceImpl(
             userId = UUID.randomUUID().toString(),
             username = userDto.username
         )
+        validateDuplicatedUser(userDto)
         userRepository.save(user)
-        return userDto.apply { userId = user.userId }
+        return userDto.apply {
+            userId = user.userId
+            this.encryptedPassword = user.password
+        }
     }
 
     override fun getUserByEmail(email: String): UserDto {
         val user = userRepository.findByEmail(email)
-            ?: throw UserNotFoundException("User with email $email not found")
+            ?: throw UserNotFoundException("User with email not found")
         return UserDto(
             email = user.email,
             userId = user.userId,
@@ -44,7 +49,7 @@ class UserServiceImpl(
 
     override fun getUserByUserId(userId: String): UserDto {
         val user = userRepository.findByUserId(userId)
-        ?: throw UserNotFoundException("User with id $userId not found")
+            ?: throw UserNotFoundException("User with id not found")
         return UserDto(
             email = user.email,
             userId = user.userId,
@@ -54,16 +59,21 @@ class UserServiceImpl(
     }
 
     override fun loadUserByUsername(username: String?): UserDetails {
-        if (username == null) throw UsernameNotFoundException("User $username not found")
+        if (username == null) throw UsernameNotFoundException("User not found")
         val user = userRepository.findByEmail(username)
-            ?: throw UserNotFoundException("User $username not found")
+            ?: throw UserNotFoundException("User not found")
         return org.springframework.security.core.userdetails.User(
             user.email,
             user.password,
-            true,true,true,true,
+            true, true, true, true,
             mutableListOf()
         )
     }
 
+    private fun validateDuplicatedUser(userDto: UserDto) {
+        userRepository.findByEmail(userDto.email)?.let {
+            throw DuplicateEntityException("user already exists")
+        }
+    }
 
 }
