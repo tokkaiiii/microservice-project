@@ -57,7 +57,7 @@ class AuthorizationHeaderFilter(
 
     private fun isTokenValid(token: String): Boolean {
         var isValid = true
-        val secretKeyBytes = Base64.getEncoder().encode(env.getProperty("jwt.token.secret")!!.toByteArray())
+        val secretKeyBytes = Base64.getEncoder().encode(env.getProperty("jwt.token.secrete")!!.toByteArray())
         val signingKey = SecretKeySpec(secretKeyBytes, HS512.jcaName)
 
         try {

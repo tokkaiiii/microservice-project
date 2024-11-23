@@ -18,7 +18,7 @@ class User(
     @Column(nullable = false, length = 50)
     var username: String = "",
 
-    @Column(nullable = false, unique = true,length = 50)
+    @Column(nullable = false, unique = true,length = 100)
     var password: String = "",
 
 ): BaseEntity(){
