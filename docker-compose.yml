@@ -1,0 +1,18 @@
+version: "1.0"
+services:
+  db:
+    image: mysql:latest
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DOCKER_DB_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${DOCKER_DB_DATABASE}
+      - MYSQL_USER=${DOCKER_DB_USER}
+      - MYSQL_PASSWORD=${DOCKER_DB_PASSWORD}
+    ports:
+      - 13306:3306
+    networks:
+      - post-network
+    volumes:
+      - ${VOLUME_PATH}:/var/lib/mysql
+networks:
+  post-network:
+    external: true

@@ -35,6 +35,6 @@ class GlobalExceptionHandler {
 
 }
 
-private const val LOG_ERROR_MESSAGE = "Error exception occurred: {}";
-private const val LOG_WARN_MESSAGE = "Warning exception occurred: {}";
-private const val LOG_INFO_MESSAGE = "Exception occurred: {}";
+private const val LOG_ERROR_MESSAGE = "Error exception occurred: {}"
+private const val LOG_WARN_MESSAGE = "Warning exception occurred: {}"
+private const val LOG_INFO_MESSAGE = "Exception occurred: {}"
