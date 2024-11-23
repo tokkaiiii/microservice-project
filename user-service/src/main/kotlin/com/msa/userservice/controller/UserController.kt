@@ -5,15 +5,24 @@ import com.msa.userservice.service.UserService
 import com.msa.userservice.vo.JoinRequest
 import com.msa.userservice.vo.JoinResponse
 import com.msa.userservice.vo.UserOneResponse
+import org.springframework.core.env.Environment
 import org.springframework.http.HttpStatus.CREATED
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-import javax.security.auth.callback.ConfirmationCallback.OK
 
 @RestController
 class UserController(
-    private val userService: UserService
+    private val userService: UserService,
+    private val env: Environment
 ) {
+
+    @GetMapping("/actuator/health_check")
+    fun healthCheck(): String {
+        return "{\"status\":\"UP\" \n" +
+                "\"token-key\":\"${env.getProperty("jwt.token.secrete")}\" \n" +
+                "\"token-time\":\"${env.getProperty("jwt.token.expiration_time")}\"}"
+
+    }
 
     @PostMapping("/users")
     fun createUser(@RequestBody joinRequest: JoinRequest): ResponseEntity<JoinResponse>{

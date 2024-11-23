@@ -1,0 +1,5 @@
+encrypt:
+  key-store:
+    alias: ${ENCRYPT_KEY_STORE_ALIAS}
+    location: ${ENCRYPT_KEY_STORE_LOCATION}
+    password: ${ENCRYPT_KEY_STORE_PASSWORD}
