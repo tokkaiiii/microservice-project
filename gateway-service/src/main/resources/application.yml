@@ -9,4 +9,8 @@ eureka:
 spring:
   application:
     name: gateway-service
-
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh, health, beans, busrefresh
