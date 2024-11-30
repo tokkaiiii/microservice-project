@@ -1,8 +1,10 @@
 package com.msa.postservice.service
 
+import com.msa.postservice.client.UserServiceClient
 import com.msa.postservice.dto.PostDto
 import com.msa.postservice.entity.Post
 import com.msa.postservice.repository.PostRepository
+import com.msa.postservice.vo.request.PostRequestDto
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.util.*
@@ -12,36 +14,28 @@ import java.util.stream.Collectors
 @Transactional(readOnly = true)
 class PostServiceImpl(
     private val postRepository: PostRepository,
+    private val userServiceClient: UserServiceClient
 ) : PostService {
 
     @Transactional
-    override fun createPost(postDto: PostDto): PostDto {
-        val post = Post(
-            postId = UUID.randomUUID().toString(),
-            title = postDto.title,
-            content = postDto.content,
-            userId = postDto.userId,
-            username = postDto.username
-        )
+    override fun createPost(postRequestDto: PostRequestDto): PostDto {
+        val userId = postRequestDto.userId
+        val username = userServiceClient.getUser(userId).username
+        val postDto = PostDto.toPostDto(postRequestDto,username)
+        val post = Post.toPost(postDto)
         postRepository.save(post)
-        return postDto.also { it.postId = post.postId }
+        return postDto.also { it.id = post.id }
     }
 
     override fun getPostByPostId(postId: String): PostDto {
         val findPost = postRepository.findByPostId(postId)
-        return PostDto(
-            postId = findPost.postId,
-            title = findPost.title,
-            content = findPost.content,
-            userId = findPost.userId,
-            username = findPost.username
-        )
+        return PostDto.toPostDto(findPost)
     }
 
     override fun getPostsByUserId(userId: String): List<PostDto> {
         val findPosts = postRepository.findByUserId(userId)
-        return findPosts.stream().map { p ->
-            PostDto(p.content, p.title, p.userId, p.username).toPostDto(p)
-        }.collect(Collectors.toList())
+        return findPosts.stream()
+            .map { PostDto.toPostDto(it) }
+            .collect(Collectors.toList())
     }
 }

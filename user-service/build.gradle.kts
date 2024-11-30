@@ -27,22 +27,36 @@ repositories {
 extra["springCloudVersion"] = "2023.0.3"
 
 dependencies {
+	// kafka
+	implementation ("org.springframework.kafka:spring-kafka")
+	implementation ("org.apache.kafka:kafka-clients")
+
+   // openfeign
+	implementation ("org.springframework.cloud:spring-cloud-starter-openfeign")
+
+	// web
 	implementation("org.springframework.boot:spring-boot-starter-web")
+	// security + jwd
 	implementation("org.springframework.boot:spring-boot-starter-security")
+	implementation ("io.jsonwebtoken:jjwt-api:0.11.5")
+	runtimeOnly ("io.jsonwebtoken:jjwt-impl:0.11.5")
+	runtimeOnly ("io.jsonwebtoken:jjwt-jackson:0.11.5")
+	// kafka 및 db 통신
+	implementation ("org.springframework.kafka:spring-kafka")
+	// cloud
 	implementation ("org.springframework.cloud:spring-cloud-starter-config")
 	implementation ("org.springframework.cloud:spring-cloud-starter-bootstrap")
 	implementation ("org.springframework.boot:spring-boot-starter-actuator")
 	implementation ("org.springframework.cloud:spring-cloud-starter-bus-amqp")
-	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-	implementation("org.jetbrains.kotlin:kotlin-reflect")
-	implementation ("org.springframework.boot:spring-boot-starter-aop")
-	implementation ("io.jsonwebtoken:jjwt-api:0.11.5")
-	runtimeOnly ("io.jsonwebtoken:jjwt-impl:0.11.5")
-	runtimeOnly ("io.jsonwebtoken:jjwt-jackson:0.11.5")
-	implementation ("org.apache.commons:commons-text:1.10.0")
-	runtimeOnly ("com.mysql:mysql-connector-j")
 	implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
+	// data
+	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+	runtimeOnly ("com.mysql:mysql-connector-j")
+	// aop
+	implementation ("org.springframework.boot:spring-boot-starter-aop")
+	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+	implementation("org.jetbrains.kotlin:kotlin-reflect")
+	implementation ("org.apache.commons:commons-text:1.10.0")
 	compileOnly("org.projectlombok:lombok")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	annotationProcessor("org.projectlombok:lombok")
