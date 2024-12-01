@@ -11,14 +11,14 @@ data class PostDto(
     var content: String,
     var title: String,
     var userId: String,
-    var username: String,
+    var username: String?,
     var postId: String,
     var createdAt: LocalDateTime? = null,
     var updatedAt: LocalDateTime? = null,
 ) {
     companion object {
 
-        fun toPostDto(postRequestDto: PostRequestDto,username: String) = PostDto(
+        fun toPostDto(postRequestDto: PostRequestDto,username: String?) = PostDto(
             content = postRequestDto.content,
             title = postRequestDto.title,
             userId = postRequestDto.userId,

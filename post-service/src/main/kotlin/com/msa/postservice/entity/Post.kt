@@ -20,7 +20,7 @@ class Post(
     @Column(nullable = false)
     var userId: String = "",
     @Column(nullable = false)
-    var username: String = ""
+    var username: String? = ""
 ) : BaseEntity(), Serializable {
     @Id
     @GeneratedValue(strategy = IDENTITY)

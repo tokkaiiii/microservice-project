@@ -1,10 +1,13 @@
 package com.msa.postservice.service
 
+import com.msa.postservice.client.FeignErrorDecoder
 import com.msa.postservice.client.UserServiceClient
 import com.msa.postservice.dto.PostDto
 import com.msa.postservice.entity.Post
 import com.msa.postservice.repository.PostRepository
+import com.msa.postservice.util.logger
 import com.msa.postservice.vo.request.PostRequestDto
+import feign.FeignException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.util.*
@@ -16,10 +19,12 @@ class PostServiceImpl(
     private val postRepository: PostRepository,
     private val userServiceClient: UserServiceClient
 ) : PostService {
+    private val log = logger()
 
     @Transactional
     override fun createPost(postRequestDto: PostRequestDto): PostDto {
         val userId = postRequestDto.userId
+        /* Error decoder */
         val username = userServiceClient.getUser(userId).username
         val postDto = PostDto.toPostDto(postRequestDto,username)
         val post = Post.toPost(postDto)

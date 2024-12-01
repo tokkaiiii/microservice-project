@@ -8,5 +8,5 @@ data class Payload(
     val postId: String,
     val title: String,
     val userId: String,
-    val username: String
+    val username: String?
 )
